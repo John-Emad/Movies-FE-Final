@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign In</title>
+  <link rel="stylesheet" href="/Movies-FE-Final/CSS/style.css">
+  <link rel="stylesheet" href="/Movies-FE-Final/assets/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header d-flex justify-content-center mt-5 mb-4">
+      <h1 class="logo">🎬 Movies - Sign In</h1>
+    </div>
+
+    <form class="row g-4 align-items-center justify-content-center d-flex flex-column" id="signInForm">
+      <div class="col-md-4">
+        <label for="emailInput" class="form-label">Email</label>
+        <input type="email" class="form-control" id="emailInput" required />
+        <div class="invalid-feedback">Please enter your email.</div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="passwordInput" class="form-label">Password</label>
+        <input type="password" class="form-control" id="passwordInput" required />
+        <div class="invalid-feedback">Please enter your password.</div>
+      </div>
+
+      <div class="col-12 text-center">
+        <button class="btn btn-primary px-5" type="submit">Sign In</button>
+      </div>
+
+      <div class="col-12 text-center">
+        <small>Don't have an account? <a href="index.html">Register here</a></small>
+      </div>
+
+      <div class="col-12" id="signInMessage"></div>
+    </form>
+  </div>
+
+  <script src="/Movies-FE-Final/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/Movies-FE-Final/Scripts/dist/signin.js"></script>
+</body>
+</html>

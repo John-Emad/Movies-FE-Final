@@ -8,8 +8,51 @@
     <link rel="stylesheet" href="/Movies-FE-Final/assets/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
-   
+    <div class="container">
+        <div class="header d-flex justify-content-center">
+            <h1 class="logo">🎬 Movies  - Sign Up</h1>
+        </div>
 
+        <form class="row g-4 align-items-center">
+            <div class="col-md-4">
+              <label for="FirstNameValidating" class="form-label">First name</label>
+              <input type="text" class="form-control" id="FirstNameValidating" required>
+            </div>
+
+            <div class="col-md-4">
+              <label for="LastNameValidating" class="form-label">Last name</label>
+              <input type="text" class="form-control" id="LastNameValidating" required>
+            </div>
+
+            <div class="col-md-4">
+                <label for="EmailValidating" class="form-label">Email</label>
+                <input type="email" class="form-control" id="EmailValidating" required>
+            </div>
+
+            <div class="col-md-4">
+                <label for="BirthDayValidating" class="form-label">Birthday</label>
+                <input type="date" class="form-control" id="BirthDayValidating" required>
+              </div>
+
+            <div class="col-md-4">
+                  <label for="PasswordValidating" class="col-form-label">Password</label>
+                  <input type="password" id="PasswordValidating" class="form-control">
+              </div>
+
+              <div class="col-md-4">
+                <label for="ConfirmPasswordValidating" class="col-form-label">Confirm password</label>
+                <input type="password" id="ConfirmPasswordValidating" class="form-control">
+            </div>
+
+            <div class="col-12">
+              <button class="btn btn-primary" type="submit">Create account</button>
+            </div>
+          </form>
+
+        <div class="login-link">
+            Already have an account? <a href="/Movies-FE-Final/HTML/signIn.html">Sign In</a>
+        </div>
+    </div>
 
     <script src="/Movies-FE-Final/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/Movies-FE-Final/Scripts/dist/validation.js"></script>
