@@ -1,0 +1,197 @@
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 1.25rem 0;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(0.9375rem);
+    border-radius: 1.25rem;
+    box-shadow:
+        0 1.25rem 2.5rem rgba(0, 0, 0, 0.1),
+        0 0 0 0.0625rem rgba(255, 255, 255, 0.1),
+        inset 0 0.0625rem 0 rgba(255, 255, 255, 0.2);
+    padding: 2.5rem;
+    margin-top: 3.125rem;
+    margin-bottom: 3.125rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0.25rem;
+    background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.header {
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+
+.logo {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #333;
+    text-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.625rem;
+}
+
+.form-control {
+    border-radius: 0.75rem;
+    border: 0.125rem solid #e1e5e9;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.125rem rgba(102, 126, 234, 0.25);
+    transform: translateY(-0.125rem);
+    background: rgba(255, 255, 255, 1);
+}
+
+.form-control.is-valid {
+    border-color: #4ecdc4;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.form-control.is-valid:focus {
+    border-color: #4ecdc4;
+    box-shadow: 0 0 0 0.125rem rgba(78, 205, 196, 0.25);
+}
+
+.form-label,
+.col-form-label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1.875rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary:hover {
+    transform: translateY(-0.125rem);
+    box-shadow: 0 0.5rem 1.5625rem rgba(102, 126, 234, 0.3);
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-primary:focus {
+    box-shadow: 0 0 0 0.125rem rgba(102, 126, 234, 0.25);
+}
+
+.valid-feedback {
+    display: block;
+    color: #4ecdc4;
+    font-weight: 500;
+    font-size: 0.875rem;
+    margin-top: 0.3125rem;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 1.875rem;
+    color: #666;
+    font-size: 1rem;
+}
+
+.login-link a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.login-link a:hover {
+    color: #764ba2;
+    text-decoration: underline;
+}
+
+/* Hover effects on form groups */
+.col-md-4 {
+    transition: transform 0.2s ease;
+}
+
+.col-md-4:hover {
+    transform: translateY(-0.0625rem);
+}
+
+/* Form animation */
+.row.g-4 {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(1.875rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Staggered animation delays */
+.col-md-4:nth-child(1) { animation-delay: 0.1s; }
+.col-md-4:nth-child(2) { animation-delay: 0.2s; }
+.col-md-4:nth-child(3) { animation-delay: 0.3s; }
+.col-md-4:nth-child(4) { animation-delay: 0.4s; }
+.col-md-4:nth-child(5) { animation-delay: 0.5s; }
+
+.col-md-4 {
+    animation: slideInLeft 0.6s ease-out both;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-1.25rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.col-12 {
+    animation: fadeIn 0.6s ease-out 0.6s both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
