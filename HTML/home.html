@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Movies-FE-Final/CSS/style.css">
+    <link rel="stylesheet" href="/Movies-FE-Final/assets/bootstrap/css/bootstrap.min.css">
+    <title>Home</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link active" id="nav-movies" href="#">Movies</a>
+          <a class="nav-link" id="nav-tvshows" href="#">TV Shows</a>
+          <a class="nav-link" href="#">Log out</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <h1>Top Rated Movies</h1>
+    <div id="movie-list" class="row"></div>
+  </div>
+  
+  <div class="container mt-4">
+    <h1>Top Rated Series</h1>
+    <div id="series-list" class="row"></div>
+  </div>
+
+  <div class="d-flex justify-content-center mt-4" id="pagination-controls" style="display: none;">
+    <button id="prev-page" class="btn btn-secondary me-2">Previous</button>
+    <button id="next-page" class="btn btn-secondary">Next</button>
+  </div>
+
+  <script src="/Movies-FE-Final/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="../Scripts/dist/home.js"></script>
+</body>
+</html>
