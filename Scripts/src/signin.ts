@@ -49,7 +49,7 @@ class SignInValidator {
         const user = JSON.parse(storedUser);
         if (user.email === email && user.password === password) {
           this.displayMessage(`Welcome back, ${user.firstName}!`, "success");
-          this.form.reset();
+           window.location.replace("home.html");
         } else {
           this.displayMessage("Invalid email or password.", "danger");
         }
