@@ -137,4 +137,3 @@ class RegisterFormValidator {
 document.addEventListener("DOMContentLoaded", () => {
     new RegisterFormValidator();
 });
-//# sourceMappingURL=validation.js.map

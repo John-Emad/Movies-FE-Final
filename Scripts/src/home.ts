@@ -1,106 +1,148 @@
-import { MovieService } from './moviesOperations.js';
-import { Movie } from './MovieInterface.js';
-import { SeriesService } from './seriesOperations.js';
-import { Series } from './SeriesInterface.js';
-const movieService = new MovieService();
-const seriesService = new SeriesService();
+// Scripts/src/home.ts
+import { movieService } from "./moviesOperations.js";
+import { seriesService } from "./seriesOperations.js";
+import { MovieSummary } from "./MovieInterface";
+import { SeriesSummary } from "./SeriesInterface";
 
-let currentMoviePage = 1;
-let currentSeriesPage = 1;
 
-document.addEventListener('DOMContentLoaded', async () => {
-  await loadAndRenderMovies(currentMoviePage);
-  await loadAndRenderSeries(currentSeriesPage);
+export class HomePage {
+    private moviesContent: HTMLElement;
+    private seriesContent: HTMLElement;
+    private loadingSpinner: HTMLElement;
 
-  document.getElementById('next-page')?.addEventListener('click', async () => {
-    currentMoviePage++;
-    await loadAndRenderMovies(currentMoviePage);
-  });
+    constructor() {
+        this.moviesContent = document.getElementById('movies-content') as HTMLElement;
+        this.seriesContent = document.getElementById('series-content') as HTMLElement;
+        this.loadingSpinner = document.querySelector('.loading-spinner') as HTMLElement;
 
-  document.getElementById('prev-page')?.addEventListener('click', async () => {
-    if (currentMoviePage > 1) {
-      currentMoviePage--;
-      await loadAndRenderMovies(currentMoviePage);
+        if (!this.moviesContent || !this.seriesContent || !this.loadingSpinner) {
+            throw new Error("Required DOM elements not found");
+        }
+
+        this.setupNavbar();
+        this.loadPopularContent();
     }
-  });
 
-  document.querySelector('.nav-link[href="#movies"]')?.addEventListener('click', async () => {
-    currentMoviePage = 1;
-    await loadAndRenderMovies(currentMoviePage);
-  });
+    private showLoading(show: boolean): void {
+        this.loadingSpinner.style.display = show ? 'block' : 'none';
+    }
 
-  document.querySelector('.nav-link[href="#tv"]')?.addEventListener('click', async () => {
-    currentSeriesPage = 1;
-    await loadAndRenderSeries(currentSeriesPage);
-  });
+    private renderCards(
+        items: (MovieSummary | SeriesSummary)[], 
+        container: HTMLElement, 
+        type: 'movies' | 'series'
+    ): void {
+        container.innerHTML = '';
+        
+        items.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'col';
+            
+            const title = type === 'movies' 
+                ? (item as MovieSummary).title 
+                : (item as SeriesSummary).name;
+                
+            const date = type === 'movies' 
+                ? (item as MovieSummary).release_date 
+                : (item as SeriesSummary).first_air_date;
+                
+            const year = date ? new Date(date).getFullYear() : 'N/A';
+            const poster = item.poster_path 
+                ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
+                : 'placeholder.jpg';
+            
+            card.innerHTML = `
+                <div class="card h-100 shadow-sm">
+                    <img src="${poster}" class="card-img-top" alt="${title}" loading="lazy">
+                    <div class="card-body">
+                        <h5 class="card-title">${title}</h5>
+                        <p class="card-text">${item.overview?.slice(0, 100) || 'No overview available'}...</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="text-muted">${year} • ⭐ ${item.vote_average?.toFixed(1) || 'N/A'}</small>
+                    </div>
+                </div>
+            `;
+            
+            card.addEventListener('click', () => {
+                this.navigateToDetails(item.id, type);
+            });
+            
+            container.appendChild(card);
+        });
+    }
+
+    private navigateToDetails(id: number, type: 'movies' | 'series'): void {
+        const basePath = type === 'movies' ? 'Movies' : 'Series';
+        window.location.href = `${basePath}/details.html?id=${id}`;
+    }
+
+    private setupNavbar(): void {
+        // Setup navigation to dedicated pages
+        const moviesLink = document.getElementById('nav-movies') as HTMLAnchorElement;
+        const seriesLink = document.getElementById('nav-series') as HTMLAnchorElement;
+
+        if (moviesLink && seriesLink) {
+            moviesLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = 'allmovies.html';
+            });
+
+            seriesLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = 'allseries.html';
+            });
+        }
+    }
+
+    public async loadPopularContent(): Promise<void> {
+        this.showLoading(true);
+        try {
+            const [movies, series] = await Promise.all([
+                movieService.getTopRatedMovies(),
+                seriesService.getTopRatedSeries()
+            ]);
+            
+            this.renderCards(movies, this.moviesContent, 'movies');
+            this.renderCards(series, this.seriesContent, 'series');
+            
+        } catch (error) {
+            console.error('Error loading content:', error);
+            this.showError();
+        } finally {
+            this.showLoading(false);
+        }
+    }
+
+    private showError(): void {
+        const errorHtml = `
+            <div class="col-12 text-center py-5">
+                <div class="alert alert-danger">
+                    Failed to load content. Please try again later.
+                    <button class="btn btn-sm btn-outline-danger ms-3" id="retry-btn">Retry</button>
+                </div>
+            </div>
+        `;
+        
+        this.moviesContent.innerHTML = errorHtml;
+        this.seriesContent.innerHTML = errorHtml;
+        
+        document.getElementById('retry-btn')?.addEventListener('click', () => {
+            this.loadPopularContent();
+        });
+    }
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        new HomePage();
+    } catch (error) {
+        console.error("Failed to initialize HomePage:", error);
+        // Show error to user
+        const errorElement = document.createElement('div');
+        errorElement.className = 'alert alert-danger m-3';
+        errorElement.textContent = 'Failed to initialize page. Please refresh.';
+        document.body.prepend(errorElement);
+    }
 });
-
-async function loadAndRenderMovies(page: number) {
-  try {
-    const movies = await movieService.getTopRatedMovies(page);
-    renderMovies(movies, 'movie-list');
-  } catch (error) {
-    console.error('Failed to load movies:', error);
-  }
-}
-
-async function loadAndRenderSeries(page: number) {
-  try {
-    const series = await seriesService.getTopRatedSeries(page);
-    renderSeries(series, 'series-list');
-  } catch (error) {
-    console.error('Failed to load series:', error);
-  }
-}
-
-function renderMovies(movies: Movie[], containerId: string) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-
-  container.innerHTML = '';
-
-  movies.forEach(movie => {
-    const col = document.createElement('div');
-    col.className = 'col-md-4 mb-4';
-
-    col.innerHTML = `
-      <div class="card h-100 shadow-sm">
-        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" class="card-img-top" alt="${movie.title}">
-        <div class="card-body">
-          <h5 class="card-title">${movie.title}</h5>
-          <p class="card-text">${movie.overview.slice(0, 100)}...</p>
-          <p class="card-text"><small class="text-muted">Release: ${movie.release_date}</small></p>
-          <p class="card-text"><small class="text-muted">Rating: ${movie.vote_average}</small></p>
-        </div>
-      </div>
-    `;
-
-    container.appendChild(col);
-  });
-}
-
-function renderSeries(seriesList: Series[], containerId: string) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-
-  container.innerHTML = '';
-
-  seriesList.forEach(series => {
-    const col = document.createElement('div');
-    col.className = 'col-md-4 mb-4';
-
-    col.innerHTML = `
-      <div class="card h-100 shadow-sm">
-        <img src="https://image.tmdb.org/t/p/w500${series.poster_path}" class="card-img-top" alt="${series.name}">
-        <div class="card-body">
-          <h5 class="card-title">${series.name}</h5>
-          <p class="card-text">${series.overview.slice(0, 100)}...</p>
-          <p class="card-text"><small class="text-muted">First Air Date: ${series.first_air_date}</small></p>
-          <p class="card-text"><small class="text-muted">Rating: ${series.vote_average}</small></p>
-        </div>
-      </div>
-    `;
-
-    container.appendChild(col);
-  });
-}

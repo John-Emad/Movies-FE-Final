@@ -68,4 +68,3 @@ class SignInValidator {
 document.addEventListener("DOMContentLoaded", () => {
     new SignInValidator();
 });
-//# sourceMappingURL=signin.js.map
