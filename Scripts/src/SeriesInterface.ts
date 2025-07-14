@@ -1,4 +1,4 @@
-export interface Series {
+export interface SeriesSummary {
     adult: boolean;
     backdrop_path: string | null;
     genre_ids: number[];
@@ -49,7 +49,7 @@ export interface Series {
     vote_average: number;
   }
   
-  export interface SeriesDetails extends Omit<Series, 'genre_ids'> {
+  export interface SeriesDetails extends Omit<SeriesSummary, 'genre_ids'> {
     created_by: any[]; // optionally define this if needed
     episode_run_time: number[];
     genres: Genre[];
@@ -73,7 +73,7 @@ export interface Series {
   
   export interface SeriesApiResponse {
     page: number;
-    results: Series[];
+    results: SeriesSummary[];
     total_pages: number;
     total_results: number;
   }

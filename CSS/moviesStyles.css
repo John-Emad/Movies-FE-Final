@@ -1,0 +1,114 @@
+.company-logo {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 120px;
+}
+
+.company-logo img {
+    max-height: 50px;
+    max-width: 100px;
+    object-fit: contain;
+}
+
+.company-name {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    text-align: center;
+    word-break: break-word;
+}
+
+.movie-meta .badge {
+    font-size: 0.85rem;
+    padding: 0.35em 0.65em;
+}
+.backdrop-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Places it behind all content */
+    overflow: hidden;
+}
+
+.backdrop-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(8px) brightness(0.4);
+    transform: scale(1.1); /* Prevents blur edge artifacts */
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.backdrop-image.loaded {
+    opacity: 1;
+}
+
+.content-overlay {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark overlay for better text readability */
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.back-button:hover {
+    background: rgba(0, 0, 0, 0.9);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateX(-3px);
+}
+
+.back-button:active {
+    transform: translateX(0) scale(0.98);
+}
+
+.back-button i {
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.back-button:hover i {
+    transform: translateX(-3px);
+}
+
+.back-text {
+    font-size: 0.95rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .back-button {
+        padding: 8px 12px;
+        top: 15px;
+        left: 15px;
+    }
+    .back-text {
+        display: none;
+    }
+    .back-button i {
+        font-size: 1.3rem;
+    }
+}
